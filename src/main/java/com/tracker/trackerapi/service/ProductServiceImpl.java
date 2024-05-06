@@ -30,7 +30,6 @@ public class ProductServiceImpl implements ProductService {
     public Product createProduct(Product product) {
         try {
             return productRepository.save(product);
-
         } catch (Exception e) {
             throw new HttpErrorException("Error occurred while saving the product.", HttpStatus.INTERNAL_SERVER_ERROR.value());
         }

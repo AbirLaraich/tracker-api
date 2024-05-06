@@ -166,8 +166,8 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/product/{qrCode}")
-    public ResponseEntity<ProductDto> getProductBy(@PathVariable String qrCode) {
+    @PostMapping("/product/qrcode")
+    public ResponseEntity<ProductDto> getProductByQrCodeUsingPost(@RequestBody String qrCode) {
         try {
             Product product = productService.getProductBy(qrCode);
             if (product == null)
