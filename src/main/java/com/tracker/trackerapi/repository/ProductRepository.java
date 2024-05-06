@@ -11,6 +11,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long>  {
     List<Product> getProductsByDistributer_SiretNumber(int siretNumber);
     Product getProductByNumProduct(int numProduct);
+    Product getProductByQrCode(String qrCode);
     List<Product> getProductsByLot(Lot lot);
 
 }

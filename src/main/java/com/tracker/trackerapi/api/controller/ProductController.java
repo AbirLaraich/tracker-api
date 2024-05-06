@@ -166,4 +166,32 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/product/{qrCode}")
+    public ResponseEntity<ProductDto> getProductBy(@PathVariable String qrCode) {
+        try {
+            Product product = productService.getProductBy(qrCode);
+            if (product == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            ProductDto productDto = new ProductDto(product.getNumSiret(),
+                    product.getWeight(),
+                    product.getLot().getNumLot(),
+                    new DistributerDto(
+                            product.getDistributer().getEmail(),
+                            product.getDistributer().getPassword(),
+                            product.getDistributer().getAdresse(),
+                            product.getDistributer().getName(),
+                            product.getDistributer().getSiretNumber()
+                    )
+                    ,
+                    product.getDeliveryDate()
+            );
+            productDto.setQrCode(product.getQrCode());
+            return new ResponseEntity<>(productDto, HttpStatus.OK);
+
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

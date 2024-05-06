@@ -16,7 +16,8 @@ public interface ProductService {
 
     public Product updateProduct(int numProduct, Date delivery_date);
 
-    public Product getProduct(int numProduct) ;
+    public Product getProduct(int numProduct);
+    public Product getProductBy(String qrCode);
     public List<Product> getProductsByLot(Lot lot) ;
 
 }

@@ -71,6 +71,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product getProductBy(String qrCode) {
+        return productRepository.getProductByQrCode(qrCode);
+    }
+
+    @Override
     public List<Product> getProductsByLot(Lot lot) {
         return this.productRepository.getProductsByLot(lot);
     }
