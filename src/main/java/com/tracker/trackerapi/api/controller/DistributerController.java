@@ -16,15 +16,14 @@ import java.util.List;
 @RequestMapping("/api")
 public class DistributerController {
     private final DistributerService distributerService;
-    private final DistributerMapper distributerMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public DistributerController(DistributerService distributerService, DistributerMapper distributerMapper, BCryptPasswordEncoder passwordEncoder) {
+    public DistributerController(DistributerService distributerService, BCryptPasswordEncoder passwordEncoder) {
         this.distributerService = distributerService;
-        this.distributerMapper = distributerMapper;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @GetMapping("/distributers")
     public List<DistributerDto> getDistributes() {
