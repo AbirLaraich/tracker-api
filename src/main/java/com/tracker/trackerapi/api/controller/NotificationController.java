@@ -39,7 +39,6 @@ public class NotificationController {
 
     @PostMapping("/notification")
     public ResponseEntity<?> createNotification(@RequestBody NotificationDto notificationDto) {
-
         try {
             Distributer distributer = distributerService.getDistributerByEmail(notificationDto.getDistributerEmail());
             Supplier supplier = supplierService.getSupplierByEmail(notificationDto.getSupplierEmail());
