@@ -15,7 +15,6 @@ public class Notification {
     @ManyToOne
     @JoinColumn(name = "distributor_id", nullable = false)
     private Distributer distributor;
-
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
