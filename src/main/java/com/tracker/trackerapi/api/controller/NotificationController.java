@@ -80,11 +80,11 @@ public class NotificationController {
     }
 
 
-    @GetMapping("/notification/supplier/{supplierId}")
-    public ResponseEntity<List<NotificationDto>> getNotificationsBySupplier(@PathVariable("supplierId") int supplierId) {
+    @GetMapping("/notification/distributer/{distributerId}")
+    public ResponseEntity<List<NotificationDto>> getNotificationsByDistributer(@PathVariable("distributerId") int distributerId) {
         try {
 
-            List<Notification> notifications = this.notificationService.getNotiificationForSupplier(supplierId);
+            List<Notification> notifications = this.notificationService.findNotificationByDistributerId(distributerId);
             if (notifications.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

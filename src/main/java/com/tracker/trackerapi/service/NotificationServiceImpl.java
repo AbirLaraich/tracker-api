@@ -38,8 +38,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> getNotiificationForSupplier(int supplier_id) {
-        return  notificationRepository.findNotificationBySupplierId(supplier_id);
+    public List<Notification> findNotificationByDistributerId(int distributer_id) {
+        return  notificationRepository.findNotificationByDistributerId(distributer_id);
     }
 
     @Override

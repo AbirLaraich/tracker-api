@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    @Query("SELECT n from Notification n WHERE n.supplier.id = :supplier_id")
-    List<Notification> findNotificationBySupplierId(@Param("supplier_id") int supplier_id);
+    @Query("SELECT n from Notification n WHERE n.distributor.id = :distributer_id")
+    List<Notification> findNotificationByDistributerId(@Param("distributer_id") int distributer_id);
 
     @Query("SELECT n from Notification n WHERE n.notif_id = :notification_id")
     Notification findNotificationByNotif_id(@Param("notification_id") long notification_id);
