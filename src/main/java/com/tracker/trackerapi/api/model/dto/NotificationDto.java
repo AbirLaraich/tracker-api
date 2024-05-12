@@ -9,9 +9,9 @@ public class NotificationDto {
     @JsonProperty("id")
     private Long id;
     @JsonProperty("distributer")
-    private String distributer_email;
+    private DistributerDto distributer;
     @JsonProperty("supplier")
-    private String supplier_email;
+    private SupplierDto supplier;
     @JsonProperty("order")
     private long order_id;
     @JsonProperty("isRead")
@@ -22,10 +22,10 @@ public class NotificationDto {
     public NotificationDto() {
     }
 
-    public NotificationDto(Long id, String distributer_email, String supplier_email, long order_id, boolean isRead,LocalDateTime CreateDate) {
+    public NotificationDto(Long id, DistributerDto distributer, SupplierDto supplier, long order_id, boolean isRead,LocalDateTime CreateDate) {
         this.id = id;
-        this.distributer_email = distributer_email;
-        this.supplier_email = supplier_email;
+        this.distributer = distributer;
+        this.supplier = supplier;
         this.order_id = order_id;
         this.isRead = isRead;
         this.CreateDate =CreateDate ;
@@ -39,20 +39,20 @@ public class NotificationDto {
         this.id = id;
     }
     @JsonProperty("distributer")
-    public String getDistributerEmail() {
-        return distributer_email;
+    public DistributerDto getDistributer() {
+        return distributer;
     }
     @JsonProperty("distributer")
-    public void setDistributerEmail(String distributer_email) {
-        this.distributer_email = distributer_email;
+    public void setDistributer(DistributerDto distributer) {
+        this.distributer = distributer;
     }
     @JsonProperty("supplier")
-    public String getSupplierEmail() {
-        return supplier_email;
+    public SupplierDto getSupplier() {
+        return supplier;
     }
     @JsonProperty("supplier")
-    public void setSupplierEmail(String supplier_email) {
-        this.supplier_email = supplier_email;
+    public void setSupplierEmail(SupplierDto supplier) {
+        this.supplier = supplier;
     }
     @JsonProperty("order")
     public long getOrder_id() {

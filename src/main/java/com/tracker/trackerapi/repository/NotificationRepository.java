@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    @Query("SELECT n from Notification n WHERE n.distributor.id = :distributer_id")
+    @Query("SELECT n from Notification n WHERE n.distributor.id = :distributer_id order by n.CreateDate desc ")
     List<Notification> findNotificationByDistributerId(@Param("distributer_id") int distributer_id);
 
     @Query("SELECT n from Notification n WHERE n.notif_id = :notification_id")

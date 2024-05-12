@@ -1,8 +1,10 @@
 package com.tracker.trackerapi.api.controller;
+
 import com.tracker.trackerapi.api.model.*;
 import com.tracker.trackerapi.api.model.dto.DistributerDto;
 import com.tracker.trackerapi.api.model.dto.NotificationDto;
 import com.tracker.trackerapi.api.model.dto.ProductDto;
+import com.tracker.trackerapi.api.model.dto.SupplierDto;
 import com.tracker.trackerapi.service.DistributerService;
 import com.tracker.trackerapi.service.NotificationService;
 import com.tracker.trackerapi.service.OrderService;
@@ -40,8 +42,8 @@ public class NotificationController {
     @PostMapping("/notification")
     public ResponseEntity<?> createNotification(@RequestBody NotificationDto notificationDto) {
         try {
-            Distributer distributer = distributerService.getDistributerByEmail(notificationDto.getDistributerEmail());
-            Supplier supplier = supplierService.getSupplierByEmail(notificationDto.getSupplierEmail());
+            Distributer distributer = distributerService.getDistributerByEmail(notificationDto.getDistributer().getEmail());
+            Supplier supplier = supplierService.getSupplierByEmail(notificationDto.getSupplier().getEmail());
             Order order = orderService.getById(notificationDto.getOrder_id());
 
             LocalDateTime currentDateTime = LocalDateTime.now();
@@ -52,7 +54,7 @@ public class NotificationController {
 
             return new ResponseEntity<>(notificationDto, HttpStatus.CREATED);
 
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             return new ResponseEntity<>("Erreur lors de la création du produit", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,10 +65,19 @@ public class NotificationController {
             Notification notification = notificationService.getNotification(id);
             if (notification == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+            Distributer distributer = notification.getDistributor();
+            Supplier supplier = notification.getSupplier() ;
             NotificationDto notificationDto = new NotificationDto(notification.getNotif_id(),
-                    notification.getDistributor().getEmail(),
-                    notification.getSupplier().getEmail(),
+                    new DistributerDto(distributer.getEmail(),
+                            distributer.getPassword(),
+                            distributer.getAdresse(),
+                            distributer.getName(),
+                            distributer.getSiretNumber()),
+                    new SupplierDto(supplier.getEmail(),
+                            supplier.getPassword(),
+                            supplier.getAdresse(),
+                            supplier.getName(),
+                            supplier.getSiretNumber()),
                     notification.getOrder().getId(),
                     notification.isRead(),
                     notification.getCreateDate()
@@ -85,19 +96,27 @@ public class NotificationController {
     public ResponseEntity<List<NotificationDto>> getNotificationsByDistributer(@PathVariable("distributerEmail") String distributerEmail) {
         try {
 
-            List<Notification> notifications  = new ArrayList<>();
-            Distributer distributer =  this.distributerService.getDistributerByEmail(distributerEmail);
-            if(distributer != null)
-                 notifications = this.notificationService.findNotificationByDistributerId(distributer.getId());
-            if (notifications.isEmpty()){
+            List<Notification> notifications = new ArrayList<>();
+            Distributer distributer = this.distributerService.getDistributerByEmail(distributerEmail);
+            if (distributer != null)
+                notifications = this.notificationService.findNotificationByDistributerId(distributer.getId());
+            if (notifications.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
             List<NotificationDto> notificationsDto = new ArrayList<>();
             for (Notification notification : notifications) {
+                Supplier supplier = notification.getSupplier();
                 NotificationDto notificationDto = new NotificationDto(notification.getNotif_id(),
-                        notification.getDistributor().getEmail(),
-                        notification.getSupplier().getEmail(),
+                        new DistributerDto(notification.getDistributor().getEmail(),
+                                notification.getDistributor().getPassword(),
+                                notification.getDistributor().getAdresse(),
+                                notification.getDistributor().getName(),
+                                notification.getDistributor().getSiretNumber()),
+                        new SupplierDto( notification.getSupplier().getEmail(),
+                                notification.getSupplier().getPassword(),
+                                notification.getSupplier().getAdresse(),
+                                notification.getSupplier().getName(),
+                                notification.getSupplier().getSiretNumber()),
                         notification.getOrder().getId(),
                         notification.isRead(),
                         notification.getCreateDate()
@@ -120,15 +139,24 @@ public class NotificationController {
         try {
 
             Notification notification = notificationService.updateNotificationById(id);
-
-            NotificationDto notificationsDto = new NotificationDto(notification.getNotif_id(),
-                    notification.getDistributor().getEmail(),
-                    notification.getSupplier().getEmail(),
+             Distributer distributer = notification.getDistributor();
+            Supplier supplier = notification.getSupplier() ;
+            NotificationDto notificationDto = new NotificationDto(notification.getNotif_id(),
+                    new DistributerDto(distributer.getEmail(),
+                            distributer.getPassword(),
+                            distributer.getAdresse(),
+                            distributer.getName(),
+                            distributer.getSiretNumber()),
+                    new SupplierDto(supplier.getEmail(),
+                            supplier.getPassword(),
+                            supplier.getAdresse(),
+                            supplier.getName(),
+                            supplier.getSiretNumber()),
                     notification.getOrder().getId(),
                     notification.isRead(),
                     notification.getCreateDate()
             );
-            return new ResponseEntity<>(notificationsDto, HttpStatus.OK);
+            return new ResponseEntity<>(notificationDto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
