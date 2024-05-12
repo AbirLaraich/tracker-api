@@ -20,6 +20,7 @@ public class DistributerController {
 
 
 
+
     public DistributerController(DistributerService distributerService, BCryptPasswordEncoder passwordEncoder) {
         this.distributerService = distributerService;
         this.passwordEncoder = passwordEncoder;
