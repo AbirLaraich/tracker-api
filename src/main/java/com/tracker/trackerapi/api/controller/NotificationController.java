@@ -68,7 +68,8 @@ public class NotificationController {
                     notification.getDistributor().getEmail(),
                     notification.getSupplier().getEmail(),
                     notification.getOrder().getId(),
-                    notification.isRead()
+                    notification.isRead(),
+                    notification.getCreateDate()
             );
             return new ResponseEntity<>(notificationDto, HttpStatus.OK);
 
@@ -98,7 +99,8 @@ public class NotificationController {
                         notification.getDistributor().getEmail(),
                         notification.getSupplier().getEmail(),
                         notification.getOrder().getId(),
-                        notification.isRead()
+                        notification.isRead(),
+                        notification.getCreateDate()
                 );
                 notificationsDto.add(notificationDto);
             }
@@ -123,7 +125,8 @@ public class NotificationController {
                     notification.getDistributor().getEmail(),
                     notification.getSupplier().getEmail(),
                     notification.getOrder().getId(),
-                    notification.isRead()
+                    notification.isRead(),
+                    notification.getCreateDate()
             );
             return new ResponseEntity<>(notificationsDto, HttpStatus.OK);
         } catch (Exception e) {

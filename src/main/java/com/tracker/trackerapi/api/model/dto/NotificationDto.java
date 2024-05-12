@@ -2,6 +2,9 @@ package com.tracker.trackerapi.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class NotificationDto {
     @JsonProperty("id")
     private Long id;
@@ -14,15 +17,18 @@ public class NotificationDto {
     @JsonProperty("isRead")
     private boolean isRead;
 
+    @JsonProperty("CreateDate")
+    private LocalDateTime CreateDate;
     public NotificationDto() {
     }
 
-    public NotificationDto(Long id, String distributer_email, String supplier_email, long order_id, boolean isRead) {
+    public NotificationDto(Long id, String distributer_email, String supplier_email, long order_id, boolean isRead,LocalDateTime CreateDate) {
         this.id = id;
         this.distributer_email = distributer_email;
         this.supplier_email = supplier_email;
         this.order_id = order_id;
         this.isRead = isRead;
+        this.CreateDate =CreateDate ;
     }
     @JsonProperty("id")
     public Long getId() {
