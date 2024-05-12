@@ -18,6 +18,7 @@ public class DistributerController {
     private final DistributerService distributerService;
     private final BCryptPasswordEncoder passwordEncoder;
 
+
     public DistributerController(DistributerService distributerService, BCryptPasswordEncoder passwordEncoder) {
         this.distributerService = distributerService;
         this.passwordEncoder = passwordEncoder;
