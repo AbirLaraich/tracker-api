@@ -155,7 +155,7 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<LotDto> getLotsByOrder(int order_id) {
+    public List<LotDto> getLotsByOrder(long order_id) {
       try{
           List<Lot> lots   = lotRepository.getLotsByOrder(order_id);
 

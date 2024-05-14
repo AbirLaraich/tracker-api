@@ -1,6 +1,9 @@
 package com.tracker.trackerapi.service;
 
 import com.tracker.trackerapi.api.model.*;
+import com.tracker.trackerapi.api.model.dto.DistributerDto;
+import com.tracker.trackerapi.api.model.dto.OrderDto;
+import com.tracker.trackerapi.api.model.dto.SupplierDto;
 import com.tracker.trackerapi.exeption.HttpErrorException;
 import com.tracker.trackerapi.repository.DistanceRepository;
 import com.tracker.trackerapi.repository.OrderRepository;
@@ -14,11 +17,14 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final DistanceRepository distanceRepository;
+
+    private final LotService lotService;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public OrderServiceImpl(OrderRepository orderRepository, DistanceRepository distanceRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, DistanceRepository distanceRepository, LotService lotService) {
         this.orderRepository = orderRepository;
         this.distanceRepository = distanceRepository;
+        this.lotService =  lotService;
     }
 
     @Override
@@ -133,6 +139,29 @@ public class OrderServiceImpl implements OrderService {
     public Order updateOrder(Order order) {
         return this.orderRepository.save(order);
     }
+
+    @Override
+    public OrderDto getOrderById(long id) {
+        Status status = Status.PROCESSED;
+        Order order = orderRepository.getOrderByOrderId(status,id);
+        OrderDto orderDto = new OrderDto(order.getId(),
+                new DistributerDto(order.getDistributer().getEmail(),
+                        order.getDistributer().getPassword(),
+                        order.getDistributer().getAdresse(),
+                        order.getDistributer().getName(),
+                        order.getDistributer().getSiretNumber()),
+                new SupplierDto(order.getOwner().getEmail(),
+                        order.getOwner().getPassword(),
+                        order.getOwner().getAdresse(),
+                        order.getOwner().getName(),
+                        order.getOwner().getSiretNumber()),
+                order.getStatus());
+
+        long orderId  =  orderDto.getId();
+        orderDto.setLots(lotService.getLotsByOrder(orderId));
+         return orderDto;
+    }
+
 
 }
 

@@ -84,7 +84,7 @@ public class LotController {
 
 
     @GetMapping("/order/lot/{order_id}")
-    public ResponseEntity<List<LotDto>> getLotsByOrder(@PathVariable int order_id) {
+    public ResponseEntity<List<LotDto>> getLotsByOrder(@PathVariable long order_id) {
         try {
             List<LotDto> lotDtoList = this.lotService.getLotsByOrder(order_id);
             return new ResponseEntity<>(lotDtoList, HttpStatus.OK);

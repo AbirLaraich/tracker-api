@@ -168,6 +168,16 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/order/procedssed/{orderId}")
+    @Transactional
+    public ResponseEntity<?> getProcessedOrderById(@PathVariable long orderId){
+        try {
+            OrderDto orderDto  = this.orderService.getOrderById(orderId);
+            return new ResponseEntity<>(orderDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/processedOrder/{siret_number}")
     public ResponseEntity<List<OrderDto>> findProcessedOrder(@PathVariable int siret_number) {
         try {

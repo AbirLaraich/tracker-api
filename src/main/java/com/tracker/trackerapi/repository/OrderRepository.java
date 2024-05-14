@@ -24,4 +24,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o WHERE o.status = :status AND o.distributer.id = :distributer_id")
     List<Order> getOrderByStatusAndDistributer(Status status , int distributer_id) ;
 
+    @Query("select o From Order o where o.status = :status and o.id = :order_id")
+    Order  getOrderByOrderId(Status status , long order_id) ;
+
 }

@@ -3,6 +3,7 @@ package com.tracker.trackerapi.api.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tracker.trackerapi.api.model.Order.*;
 import com.tracker.trackerapi.api.model.Status;
+import com.tracker.trackerapi.service.LotService;
 
 import java.util.Date;
 import java.util.List;

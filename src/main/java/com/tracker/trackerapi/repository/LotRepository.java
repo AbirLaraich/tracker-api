@@ -19,5 +19,5 @@ public interface LotRepository extends JpaRepository<Lot, Integer> {
     List<Lot> getLotsByDistributer_SiretNumber(Long num_siret);
 
     @Query("select l from Lot l WHERE l.order.id = :order_id")
-    List<Lot> getLotsByOrder(@Param("order_id") int order_id);
+    List<Lot> getLotsByOrder(@Param("order_id") long order_id);
 }

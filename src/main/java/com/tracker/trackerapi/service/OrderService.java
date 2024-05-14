@@ -14,5 +14,6 @@ public interface OrderService {
     List<Order> findProcessedOrder(Status status,  int distributer_id ) ;
     Order getById(Long id);
     Order updateOrder(Order order);
+    OrderDto getOrderById(long id);
 
 }

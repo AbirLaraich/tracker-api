@@ -19,6 +19,6 @@ public interface LotService {
     List<LotDto> getLotsWithoutOrderBySupplierSiretNumber(Long numSiret);
     List<LotDto> getLotsByDistributerAndSiretNumber(Long numSiret);
 
-    List<LotDto> getLotsByOrder(int order_id);
+    List<LotDto> getLotsByOrder(long order_id);
 
 }
