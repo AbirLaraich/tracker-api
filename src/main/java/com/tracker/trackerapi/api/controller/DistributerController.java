@@ -22,7 +22,6 @@ public class DistributerController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @GetMapping("/distributers")
     public List<DistributerDto> getDistributes() {
         return this.distributerService.getDistributers();
