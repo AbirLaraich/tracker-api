@@ -88,35 +88,39 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(Long orderId, Status status) {
-        Order order = getById(orderId);
-        Distributer distributer = order.getDistributer();
-        Supplier owner = order.getOwner();
+    public Order updateOrderStatus(Long orderId, Status status) {
+        try {
+            Order order = getById(orderId);
+            Distributer distributer = order.getDistributer();
+            Supplier owner = order.getOwner();
 
-        if (distributer != null && owner != null) {
-            Distance distanceInDB = distanceRepository.findDistanceBySupplierAndDistributor(owner.getId(), distributer.getId());
-            if (distanceInDB == null) {
-                String distributerAdresse = distributer.getAdresse();
-                String supplierAdress = owner.getAdresse();
-                Location startCoords = geocodeAddress(distributerAdresse);
-                Location endCoords = geocodeAddress(supplierAdress);
+            if (distributer != null && owner != null) {
+                Distance distanceInDB = distanceRepository.findDistanceBySupplierAndDistributor(owner.getId(), distributer.getId());
+                if (distanceInDB == null) {
+                    String distributerAdresse = distributer.getAdresse();
+                    String supplierAdress = owner.getAdresse();
+                    Location startCoords = geocodeAddress(distributerAdresse);
+                    Location endCoords = geocodeAddress(supplierAdress);
 
-                if (startCoords != null && endCoords != null) {
-                    String distance = distanceCalculation(startCoords, endCoords);
-                    try {
-                        double distanceKm = Double.parseDouble(distance) / 1000;
-                        distanceRepository.save(new Distance(distributer,owner,distanceKm));
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
+                    if (startCoords != null && endCoords != null) {
+                        String distance = distanceCalculation(startCoords, endCoords);
+                        try {
+                            double distanceKm = Double.parseDouble(distance) / 1000;
+                            distanceRepository.save(new Distance(distributer, owner, distanceKm));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                            throw new HttpErrorException("Error parsing distance to double", 200);
+                        }
                     }
                 }
             }
+
+            return this.orderRepository.getOrderById(this.orderRepository.updateOrderStatus(orderId, status));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("error: " + e);
+            throw new HttpErrorException("An error occurred while updating the order status", 1);
         }
-
-
-        this.orderRepository.updateOrderStatus(orderId, status);
     }
 
     @Override

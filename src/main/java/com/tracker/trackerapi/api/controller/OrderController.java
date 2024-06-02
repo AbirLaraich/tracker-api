@@ -159,12 +159,42 @@ public class OrderController {
     }
     @PutMapping("/order/{orderId}/processed")
     @Transactional
-    public ResponseEntity<String> sendOrder(@PathVariable Long orderId) {
+    public ResponseEntity<?> sendOrder(@PathVariable Long orderId) {
         try {
-            this.orderService.updateOrderStatus(orderId, Status.PROCESSED);
-            return new ResponseEntity<>("Envoie de commande avec Succès", HttpStatus.OK);
+            Order order = this.orderService.updateOrderStatus(orderId, Status.PROCESSED);
+            List<Lot> lots = this.lotService.getLotsByOrder(order);
+
+            OrderDto orderDto = new OrderDto(
+                    order.getId(),
+                    new DistributerDto(
+                            order.getDistributer().getEmail(),
+                            order.getDistributer().getPassword(),
+                            order.getDistributer().getAdresse(),
+                            order.getDistributer().getName(),
+                            order.getDistributer().getSiretNumber()
+                    ),
+                    new SupplierDto(
+                            order.getOwner().getEmail(),
+                            order.getOwner().getPassword(),
+                            order.getOwner().getAdresse(),
+                            order.getOwner().getName(),
+                            order.getOwner().getSiretNumber()
+                    ),
+                    order.getStatus()
+            );
+            orderDto.setLots(lots.stream().map(
+                    lot -> new LotDto(
+                            lot.getNumLot(),
+                            lot.getName(),
+                            orderDto.getOwner(),
+                            orderDto.getDistributer(),
+                            lot.getCreation_date(),
+                            lot.getOrder().getId()
+                    )
+            ).collect(Collectors.toList()));
+            return ResponseEntity.ok(orderDto);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Une erreur s'est produite lors de l'envoi de la commande.");
         }
     }
 

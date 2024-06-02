@@ -19,12 +19,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Modifying
     @Query("UPDATE Order o SET o.status = :status WHERE o.id = :orderId")
-    void updateOrderStatus(@Param("orderId") Long orderId, @Param("status") Status status);
+    int updateOrderStatus(@Param("orderId") Long orderId, @Param("status") Status status);
 
     @Query("SELECT o FROM Order o WHERE o.status = :status AND o.distributer.id = :distributer_id")
     List<Order> getOrderByStatusAndDistributer(Status status , int distributer_id) ;
 
     @Query("select o From Order o where o.status = :status and o.id = :order_id")
     Order  getOrderByOrderId(Status status , long order_id) ;
+    @Query("select o From Order o where o.id = :order_id")
+    Order getOrderById(long order_id);
 
 }

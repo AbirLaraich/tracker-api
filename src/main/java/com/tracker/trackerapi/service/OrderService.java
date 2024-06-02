@@ -10,7 +10,7 @@ public interface OrderService {
     Order createOrder(Order order);
     List<Order> getByOwner(int siretNumber);
     List<Order> getByDistributeur(int siretNumber);
-    void updateOrderStatus(Long orderId, Status status);
+    Order updateOrderStatus(Long orderId, Status status);
     List<Order> findProcessedOrder(Status status,  int distributer_id ) ;
     Order getById(Long id);
     Order updateOrder(Order order);
