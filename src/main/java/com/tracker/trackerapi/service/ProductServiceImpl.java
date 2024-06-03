@@ -79,5 +79,10 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository.getProductsByLot(lot);
     }
 
+    @Override
+    public Product addBlockChainDataToProduct(Product product) {
+        return this.productRepository.save(product);
+    }
+
 
 }

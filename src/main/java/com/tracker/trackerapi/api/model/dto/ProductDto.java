@@ -20,6 +20,10 @@ public class ProductDto {
     private Date delivery_date;
     @JsonProperty("qrCode")
     private String qrCode;
+    @JsonProperty("hash")
+    private String hash;
+    @JsonProperty("hashedData")
+    private String hashedData;
     public ProductDto(int numProduct, String weight, String numLot, DistributerDto distributer, Date delivery_date) {
         this.numProduct = numProduct;
         this.weight = weight;
@@ -35,6 +39,17 @@ public class ProductDto {
         this.distributer = distributer;
         this.delivery_date = delivery_date;
         this.qrCode = qrCode;
+    }
+
+    public ProductDto(int numProduct, String weight, String numLot, DistributerDto distributer, Date delivery_date, String qrCode, String hash, String hashedData) {
+        this.numProduct = numProduct;
+        this.weight = weight;
+        this.numLot = numLot;
+        this.distributer = distributer;
+        this.delivery_date = delivery_date;
+        this.qrCode = qrCode;
+        this.hash = hash;
+        this.hashedData = hashedData;
     }
 
     public ProductDto() {
@@ -103,6 +118,22 @@ public class ProductDto {
 
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public String getHashedData() {
+        return hashedData;
+    }
+
+    public void setHashedData(String hashData) {
+        this.hashedData = hashData;
     }
 }
 

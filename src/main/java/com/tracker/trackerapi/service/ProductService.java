@@ -19,5 +19,6 @@ public interface ProductService {
     public Product getProduct(int numProduct);
     public Product getProductBy(String qrCode);
     public List<Product> getProductsByLot(Lot lot) ;
+    public Product addBlockChainDataToProduct(Product product);
 
 }
