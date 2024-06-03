@@ -194,19 +194,4 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @PutMapping("/product")
-    public ResponseEntity<?> updateProduct(@RequestBody ProductDto productDto) {
-        try {
-            Product product = this.productService.getProductByNumProduct(productDto.getNumProduct());
-            Product savedProduct = this.productService.addBlockChainDataToProduct(product);
-            ProductDto productResponse = new ProductDto(savedProduct.getNumSiret(), savedProduct.getWeight(), productDto.getNumLot(), productDto.getDistributer(), productDto.getDelivery_date());
-            productResponse.setQrCode(savedProduct.getQrCode());
-            productResponse.setHash(product.getHash());
-            productResponse.setHashedData(product.getHashedData());
-            return new ResponseEntity<>(productResponse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erreur lors de la création du produit", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

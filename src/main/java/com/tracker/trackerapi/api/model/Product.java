@@ -23,10 +23,6 @@ public class Product {
     private Distributer distributer;
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String qrCode;
-    @Column(nullable = true)
-    private String hash;
-    @Column(nullable = true)
-    private String hashedData;
     public Product(int numProduct, String weight, Date deliveryDate) {
         this.numProduct = numProduct;
         this.weight = weight;
@@ -39,19 +35,6 @@ public class Product {
         this.lot = lot;
         this.distributer = distributer;
     }
-
-
-    public Product(int numProduct, String weight, Date deliveryDate, Lot lot, Distributer distributer, String qrCode, String hash, String hashedData) {
-        this.numProduct = numProduct;
-        this.weight = weight;
-        this.deliveryDate = deliveryDate;
-        this.lot = lot;
-        this.distributer = distributer;
-        this.qrCode = qrCode;
-        this.hash = hash;
-        this.hashedData = hashedData;
-    }
-
     public Product() {
     }
 
@@ -117,22 +100,6 @@ public class Product {
     }
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public String getHashedData() {
-        return hashedData;
-    }
-
-    public void setHashedData(String hashedData) {
-        this.hashedData = hashedData;
     }
 
     @Override
