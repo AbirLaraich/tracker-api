@@ -208,6 +208,7 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/processedOrder/{siret_number}")
     public ResponseEntity<List<OrderDto>> findProcessedOrder(@PathVariable int siret_number) {
         try {
