@@ -42,7 +42,7 @@ public class OrderController {
             Distributer distributer = this.distributerService.getDistributerByEmail(orderDto.getDistributer().getEmail());
             LocalDateTime currentDateTime = LocalDateTime.now();
             Date orderCreationDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
-            Order order = new Order(distributer, supplier, orderCreationDate, orderDto.getStatus(), false);
+            Order order = new Order(distributer, supplier, orderCreationDate, orderDto.getStatus());
             Order savedOrder = this.orderService.createOrder(order);
             List<Lot> lots = orderDto.getLots().stream()
                     .map(lotDto -> this.lotService.getLot(lotDto.getNumLot()))
@@ -80,8 +80,7 @@ public class OrderController {
                                 order.getOwner().getAdresse(),
                                 order.getOwner().getName(),
                                 order.getOwner().getSiretNumber()),
-                        order.getStatus(),
-                        order.isInBlockchain()
+                        order.getStatus()
                 );
                 List<LotDto> lotsDto = lots.stream()
                         .map(lot -> new LotDto(
@@ -135,12 +134,14 @@ public class OrderController {
                                 order.getOwner().getAdresse(),
                                 order.getOwner().getName(),
                                 order.getOwner().getSiretNumber()),
-                        order.getStatus(),
-                        order.isInBlockchain()
+                        order.getStatus()
                 );
                 ordersDto.add(orderDto);
             }
+
             return new ResponseEntity<>(ordersDto, HttpStatus.OK);
+
+
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -179,8 +180,7 @@ public class OrderController {
                             order.getOwner().getName(),
                             order.getOwner().getSiretNumber()
                     ),
-                    order.getStatus(),
-                    order.isInBlockchain()
+                    order.getStatus()
             );
             orderDto.setLots(lots.stream().map(
                     lot -> new LotDto(
@@ -208,7 +208,6 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     @GetMapping("/processedOrder/{siret_number}")
     public ResponseEntity<List<OrderDto>> findProcessedOrder(@PathVariable int siret_number) {
         try {
@@ -221,8 +220,7 @@ public class OrderController {
                 OrderDto orderDto = new OrderDto(order.getId(),
                         mapDistributerDto(order),
                         mapSupplierDto(order),
-                        order.getStatus(),
-                        order.isInBlockchain()
+                        order.getStatus()
                 );
                 List<LotDto> lotsDto = lots.stream()
                         .map(lot -> new LotDto(
@@ -242,8 +240,7 @@ public class OrderController {
                                         lot.getDistributer().getName(),
                                         lot.getDistributer().getSiretNumber()
                                 ),
-                                lot.getCreation_date(),
-                                this.productService.getProductsByLot(lot)
+                                lot.getCreation_date()
                         ))
                         .collect(Collectors.toList());
 
@@ -336,4 +333,5 @@ public class OrderController {
             return new ResponseEntity<>("Erreur lors de la mise à jour de la commande", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

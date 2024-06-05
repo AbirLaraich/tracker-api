@@ -159,8 +159,7 @@ public class OrderServiceImpl implements OrderService {
                         order.getOwner().getAdresse(),
                         order.getOwner().getName(),
                         order.getOwner().getSiretNumber()),
-                order.getStatus(),
-                order.isInBlockchain());
+                order.getStatus());
 
         long orderId  =  orderDto.getId();
         orderDto.setLots(lotService.getLotsByOrder(orderId));
