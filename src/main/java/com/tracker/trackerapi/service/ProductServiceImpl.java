@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,8 +77,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsByLot(Lot lot) {
-        return this.productRepository.getProductsByLot(lot);
+        List<Product> products = this.productRepository.getProductsByLot(lot);
+        return products != null ? products : Collections.emptyList();
     }
+
 
 
 }

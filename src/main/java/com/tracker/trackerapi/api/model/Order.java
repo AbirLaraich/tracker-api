@@ -22,7 +22,7 @@ public class Order {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private boolean inBlockchain;
     public Order() {
     }
