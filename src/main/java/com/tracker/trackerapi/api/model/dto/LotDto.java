@@ -1,9 +1,12 @@
 package com.tracker.trackerapi.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.aspectj.weaver.ast.Or;
+import com.tracker.trackerapi.api.model.Product;
 
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LotDto {
 
@@ -21,7 +24,8 @@ public class LotDto {
     private Date creation_date;
     @JsonProperty("order")
     private Long order;
-
+    @JsonProperty("products")
+    private List<Product> products;
     public LotDto(String numLot, String name, SupplierDto supplier, DistributerDto distributer, Date creation_date, Long order) {
         this.numLot = numLot;
         this.name = name;
@@ -29,6 +33,7 @@ public class LotDto {
         this.distributer = distributer;
         this.creation_date = creation_date;
         this.order = order;
+        this.products = new ArrayList<>();
     }
 
     public LotDto(String numLot, String name, SupplierDto supplier, DistributerDto distributer, Date creation_date) {
@@ -37,14 +42,22 @@ public class LotDto {
         this.supplier = supplier;
         this.distributer = distributer;
         this.creation_date = creation_date;
+        this.products = new ArrayList<>();
     }
     public LotDto(String numLot, String name,Date creation_date){
         this.numLot = numLot;
         this.name = name;
         this.creation_date = creation_date;
-
+        this.products = new ArrayList<>();
     }
-
+    public LotDto(String numLot, String name, SupplierDto supplier, DistributerDto distributer, Date creation_date, List<Product> products) {
+        this.numLot = numLot;
+        this.name = name;
+        this.supplier = supplier;
+        this.distributer = distributer;
+        this.creation_date = creation_date;
+        this.products = products;
+    }
     public LotDto() {
     }
     public Long getId() {
@@ -99,6 +112,14 @@ public class LotDto {
 
     public void setOrder(Long order) {
         this.order = order;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override

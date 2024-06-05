@@ -22,17 +22,18 @@ public class Order {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
-
+    @Column(nullable = false)
+    private boolean inBlockchain;
     public Order() {
     }
 
-    public Order(Distributer distributer, Supplier owner, Date creationDate, Status status) {
+    public Order(Distributer distributer, Supplier owner, Date creationDate, Status status, boolean inBlockchain) {
         this.distributer = distributer;
         this.owner = owner;
         this.creationDate = creationDate;
         this.status = status;
+        this.inBlockchain = inBlockchain;
     }
-
     public Long getId() {
         return id;
     }
@@ -70,6 +71,14 @@ public class Order {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public boolean isInBlockchain() {
+        return inBlockchain;
+    }
+
+    public void setInBlockchain(boolean inBlockchain) {
+        this.inBlockchain = inBlockchain;
     }
 
     @Override
