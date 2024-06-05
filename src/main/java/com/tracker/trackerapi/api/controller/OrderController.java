@@ -336,5 +336,4 @@ public class OrderController {
             return new ResponseEntity<>("Erreur lors de la mise à jour de la commande", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
