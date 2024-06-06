@@ -166,12 +166,9 @@ public class OrderServiceImpl implements OrderService {
         orderDto.setLots(lotService.getLotsByOrder(orderId));
         return orderDto;
     }
-
     @Override
-    public Order updateOrderInBlockChain(Long orderId, boolean inBlockChain) {
-        return this.orderRepository.updateOrderBlockChain(orderId, inBlockChain);
+    public Object updateOrderInBlockChain(Long orderId, boolean b) {
+        return this.orderRepository.updateOrderBlockchain(orderId, b);
     }
-
-
 }
 
