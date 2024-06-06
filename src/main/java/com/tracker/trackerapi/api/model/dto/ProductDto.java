@@ -36,6 +36,13 @@ public class ProductDto {
         this.delivery_date = delivery_date;
         this.qrCode = qrCode;
     }
+
+    public ProductDto(int numProduct, String weight, String numLot, String qrCode) {
+        this.numProduct = numProduct;
+        this.weight = weight;
+        this.numLot = numLot;
+        this.qrCode = qrCode;
+    }
     public ProductDto() {
     }
 
@@ -103,6 +110,5 @@ public class ProductDto {
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
     }
-
 }
 

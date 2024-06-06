@@ -19,6 +19,9 @@ public class OrderDto {
     private Status status;
     @JsonProperty("lots")
     private List<LotDto> lots;
+    @JsonProperty("inBlockchain")
+    private boolean isInBlockchain = false;
+
     public OrderDto() {
     }
 
@@ -75,5 +78,24 @@ public class OrderDto {
     @JsonProperty("lots")
     public void setLots(List<LotDto> lots) {
         this.lots = lots;
+    }
+    public boolean isInBlockchain() {
+        return isInBlockchain;
+    }
+
+    public void setInBlockchain(boolean inBlockchain) {
+        isInBlockchain = inBlockchain;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "id=" + id +
+                ", distributer=" + distributer +
+                ", owner=" + owner +
+                ", status=" + status +
+                ", lots=" + lots +
+                ", isInBlockchain=" + isInBlockchain +
+                '}';
     }
 }

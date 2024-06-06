@@ -38,25 +38,41 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<?> create(@RequestBody OrderDto orderDto) {
         try {
+            System.out.println("Received OrderDto: " + orderDto);
+
             Supplier supplier = this.supplierService.getSupplierByEmail(orderDto.getOwner().getEmail());
+            if (supplier == null) {
+                return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
+            }
+
             Distributer distributer = this.distributerService.getDistributerByEmail(orderDto.getDistributer().getEmail());
+            if (distributer == null) {
+                return new ResponseEntity<>("Distributer not found", HttpStatus.NOT_FOUND);
+            }
+
             LocalDateTime currentDateTime = LocalDateTime.now();
             Date orderCreationDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
             Order order = new Order(distributer, supplier, orderCreationDate, orderDto.getStatus());
             Order savedOrder = this.orderService.createOrder(order);
+
             List<Lot> lots = orderDto.getLots().stream()
                     .map(lotDto -> this.lotService.getLot(lotDto.getNumLot()))
+                    .filter(Objects::nonNull)
                     .toList();
-            lots.forEach((lotToUpdate) -> {
-                    lotToUpdate.setOrder(savedOrder);
-                    lotToUpdate.setDistributer(distributer);
-                    this.lotService.updateLot(lotToUpdate);
+
+            lots.forEach(lotToUpdate -> {
+                lotToUpdate.setOrder(savedOrder);
+                lotToUpdate.setDistributer(distributer);
+                this.lotService.updateLot(lotToUpdate);
             });
+
             return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();  // Log the exception for debugging purposes
             return new ResponseEntity<>("Erreur lors de la création de la commande", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping("/orders/{siretNumber}")
     public ResponseEntity<List<OrderDto>> getByOwner(@PathVariable int siretNumber) {
@@ -198,6 +214,7 @@ public class OrderController {
         }
     }
 
+
     @GetMapping("/order/procedssed/{orderId}")
     @Transactional
     public ResponseEntity<?> getProcessedOrderById(@PathVariable long orderId){
@@ -222,28 +239,42 @@ public class OrderController {
                         mapSupplierDto(order),
                         order.getStatus()
                 );
+                orderDto.setInBlockchain(order.isInBlockchain());
                 List<LotDto> lotsDto = lots.stream()
-                        .map(lot -> new LotDto(
-                                lot.getNumLot(),
-                                lot.getName(),
-                                new SupplierDto(
-                                        lot.getSupplier().getEmail(),
-                                        lot.getSupplier().getPassword(),
-                                        lot.getSupplier().getAdresse(),
-                                        lot.getSupplier().getName(),
-                                        lot.getSupplier().getSiretNumber()
-                                ),
-                                new DistributerDto(
-                                        lot.getDistributer().getEmail(),
-                                        lot.getDistributer().getPassword(),
-                                        lot.getDistributer().getAdresse(),
-                                        lot.getDistributer().getName(),
-                                        lot.getDistributer().getSiretNumber()
-                                ),
-                                lot.getCreation_date()
-                        ))
-                        .collect(Collectors.toList());
+                        .map(lot -> {
+                            List<Product> products = this.productService.getProductsByLot(lot);
 
+                            List<ProductDto> productsDtos = products.stream()
+                                    .map(product -> new ProductDto(
+                                            product.getNumProduct(),
+                                            product.getWeight(),
+                                            product.getLot().getNumLot(),
+                                            product.getQrCode()
+                                    ))
+                                    .collect(Collectors.toList());
+
+                            return new LotDto(
+                                    lot.getNumLot(),
+                                    lot.getName(),
+                                    new SupplierDto(
+                                            lot.getSupplier().getEmail(),
+                                            lot.getSupplier().getPassword(),
+                                            lot.getSupplier().getAdresse(),
+                                            lot.getSupplier().getName(),
+                                            lot.getSupplier().getSiretNumber()
+                                    ),
+                                    new DistributerDto(
+                                            lot.getDistributer().getEmail(),
+                                            lot.getDistributer().getPassword(),
+                                            lot.getDistributer().getAdresse(),
+                                            lot.getDistributer().getName(),
+                                            lot.getDistributer().getSiretNumber()
+                                    ),
+                                    lot.getCreation_date(),
+                                    productsDtos
+                            );
+                        })
+                        .collect(Collectors.toList());
                 orderDto.setLots(lotsDto);
                 ordersDto.add(orderDto);
             }

@@ -22,6 +22,10 @@ public class Order {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(nullable = false)
+    private boolean inBlockchain = false;
+
     public Order() {
     }
 
@@ -31,6 +35,7 @@ public class Order {
         this.creationDate = creationDate;
         this.status = status;
     }
+
     public Long getId() {
         return id;
     }
@@ -69,6 +74,15 @@ public class Order {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public boolean isInBlockchain() {
+        return inBlockchain;
+    }
+
+    public void setInBlockchain(boolean inBlockchain) {
+        this.inBlockchain = inBlockchain;
+    }
+
     @Override
     public String toString() {
         return "Order{" +

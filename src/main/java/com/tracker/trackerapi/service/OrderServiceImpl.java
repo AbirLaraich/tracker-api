@@ -118,10 +118,11 @@ public class OrderServiceImpl implements OrderService {
             return this.orderRepository.getOrderById(this.orderRepository.updateOrderStatus(orderId, status));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("error: " + e);
+            System.out.println("erroe: " + e);
             throw new HttpErrorException("An error occurred while updating the order status", 1);
         }
     }
+
 
     @Override
     public List<Order> findProcessedOrder(Status status, int distributer_id) {
@@ -163,7 +164,7 @@ public class OrderServiceImpl implements OrderService {
 
         long orderId  =  orderDto.getId();
         orderDto.setLots(lotService.getLotsByOrder(orderId));
-         return orderDto;
+        return orderDto;
     }
 
 
