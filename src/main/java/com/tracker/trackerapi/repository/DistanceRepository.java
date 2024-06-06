@@ -13,5 +13,9 @@ public interface DistanceRepository extends JpaRepository<Distance, Integer> {
 
     @Query("SELECT d FROM Distance d WHERE d.supplier.id = :supplier_id AND d.distributor.id = :distributer_id")
     Distance findDistanceBySupplierAndDistributor(@Param("supplier_id") int supplier_id, @Param("distributer_id") int distributer_id);
+
+    @Query("SELECT d FROM Distance d WHERE d.supplier.adresse = :supplierAdresse AND d.distributor.adresse = :distributerAdresse")
+    Distance findDistanceByAdresse(@Param("supplierAdresse") String supplierAdresse, @Param("distributerAdresse") String distributerAdresse);
+
 }
 
