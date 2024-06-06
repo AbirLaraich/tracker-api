@@ -28,5 +28,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Order  getOrderByOrderId(Status status , long order_id) ;
     @Query("select o From Order o where o.id = :order_id")
     Order getOrderById(long order_id);
-
+    @Modifying
+    @Query("UPDATE Order o SET o.inBlockchain = :inBlockChain WHERE o.id = :orderId")
+    Order updateOrderBlockChain(@Param("orderId") Long orderId, @Param("inBlockChain") boolean inBlockChain);
 }

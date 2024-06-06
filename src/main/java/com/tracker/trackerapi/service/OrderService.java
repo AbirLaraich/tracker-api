@@ -15,4 +15,6 @@ public interface OrderService {
     Order getById(Long id);
     Order updateOrder(Order order);
     OrderDto getOrderById(long id);
+    Order updateOrderInBlockChain(Long orderId, boolean inBlockChain);
+
 }

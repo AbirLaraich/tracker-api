@@ -364,4 +364,15 @@ public class OrderController {
             return new ResponseEntity<>("Erreur lors de la mise à jour de la commande", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/order/{orderId}/blockChain")
+    @Transactional
+    public ResponseEntity<String> sendOrderToBlockChain(@PathVariable Long orderId) {
+        try {
+            this.orderService.updateOrderInBlockChain(orderId, true);
+            return new ResponseEntity<>("envoie en blockchain avec Succès", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

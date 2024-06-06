@@ -167,6 +167,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDto;
     }
 
+    @Override
+    public Order updateOrderInBlockChain(Long orderId, boolean inBlockChain) {
+        return this.orderRepository.updateOrderBlockChain(orderId, inBlockChain);
+    }
+
 
 }
 
