@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DistanceDtoV2 {
 
-    @JsonProperty("id")
-    private Long id;
-
     @JsonProperty("distributer")
     private String distributerAdresse;
 
@@ -16,14 +13,6 @@ public class DistanceDtoV2 {
     public DistanceDtoV2(String distributerAdresse, String supplierAdresse) {
         this.distributerAdresse = distributerAdresse;
         this.supplierAdresse = supplierAdresse;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDistributerAdresse() {
