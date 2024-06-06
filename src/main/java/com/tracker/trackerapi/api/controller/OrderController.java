@@ -367,10 +367,9 @@ public class OrderController {
 
     @PutMapping("/order/{orderId}/blockchain")
     @Transactional
-    public ResponseEntity<String> sendOrderToBlockChain(@PathVariable Long orderId, @RequestBody OrderDto orderDto ) {
+    public ResponseEntity<?> sendOrderToBlockChain(@PathVariable Long orderId) {
         try {
-            this.orderService.updateOrderInBlockChain(orderId, true);
-            return new ResponseEntity<>("envoie en blockchain avec Succès", HttpStatus.OK);
+            return new ResponseEntity<>(this.orderService.updateOrderInBlockChain(orderId, true), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
