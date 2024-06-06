@@ -365,7 +365,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/order/{orderId}/blockChain")
+    @PutMapping("/order/{orderId}/blockchain")
     @Transactional
     public ResponseEntity<String> sendOrderToBlockChain(@PathVariable Long orderId) {
         try {
